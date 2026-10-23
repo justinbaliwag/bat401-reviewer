@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BAT 401: Comprehensive Midterm Reviewer & Exam Simulator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .tab-active { border-bottom: 3px solid #2563eb; color: #1d4ed8; font-weight: 700; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+      <div class="flex items-center space-x-3">
+        <span class="bg-blue-600 text-white font-black text-xl px-2.5 py-1 rounded-lg shadow-sm">BAT</span>
+        <div>
+          <h1 class="text-lg font-bold leading-tight">BAT 401 Midterm Master Reviewer</h1>
+          <p class="text-xs text-slate-500">Google Colab Data Cleaning & Tableau Visual Analytics</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800">
+          <i class="fa-solid fa-layer-group mr-1.5"></i> 100-Point All-Inclusive Mock
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 flex space-x-6 overflow-x-auto text-sm">
+      <button onclick="switchView('exam')" id="tab-exam" class="tab-btn py-3 px-2 border-b-2 font-semibold text-slate-600 hover:text-blue-600 transition flex items-center space-x-2">
+        <i class="fa-solid fa-file-signature text-blue-600"></i>
+        <span>Full 100-Point Mock Exam</span>
+      </button>
+      <button onclick="switchView('python')" id="tab-python" class="tab-btn py-3 px-2 border-b-2 font-semibold text-slate-600 hover:text-blue-600 transition flex items-center space-x-2">
+        <i class="fa-brands fa-python text-amber-500"></i>
+        <span>Python Cleaning Pipeline (1-12)</span>
+      </button>
+      <button onclick="switchView('tableau')" id="tab-tableau" class="tab-btn py-3 px-2 border-b-2 font-semibold text-slate-600 hover:text-blue-600 transition flex items-center space-x-2">
+        <i class="fa-solid fa-chart-pie text-indigo-500"></i>
+        <span>Tableau Steps & Canvas</span>
+      </button>
+      <button onclick="switchView('setsgroups')" id="tab-setsgroups" class="tab-btn py-3 px-2 border-b-2 font-semibold text-slate-600 hover:text-blue-600 transition flex items-center space-x-2">
+        <i class="fa-solid fa-object-ungroup text-teal-600"></i>
+        <span>Groups vs Sets Procedures</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Body -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ============================================================== -->
+    <!-- VIEW: 100-POINT FULL EXAM SIMULATOR                           -->
+    <!-- ============================================================== -->
+    <section id="view-exam" class="view-panel space-y-8">
+      
+      <!-- Exam Banner -->
+      <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-900 rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <span class="text-xs uppercase tracking-wider font-extrabold bg-blue-500/30 text-blue-200 px-2 py-0.5 rounded">All-Inclusive Mode</span>
+          <h2 class="text-2xl font-black mt-1">BAT 401 Midterm Examination Simulator</h2>
+          <p class="text-sm text-slate-300 mt-1">14 Code Writing tasks, 25 Enumeration items, and 10 Analysis scenarios (100 Points Total).</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="bg-black/40 backdrop-blur px-5 py-2.5 rounded-xl text-center border border-white/10">
+            <div class="text-xs text-slate-300 uppercase font-semibold">Total Score</div>
+            <div class="text-3xl font-black text-amber-300" id="score-display">0 / 100</div>
+          </div>
+          <button onclick="gradeExam()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition active:scale-95 flex items-center gap-2">
+            <i class="fa-solid fa-check-double"></i>
+            <span>Submit Exam</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PART 1: CODE WRITING (35 POINTS) -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+          <div>
+            <h3 class="font-bold text-base flex items-center">
+              <i class="fa-solid fa-code text-blue-400 mr-2"></i> PART I: Writing Python Code (35 Points)
+            </h3>
+            <p class="text-xs text-slate-400">Write exact, syntactically correct Google Colab / Pandas code (2.5 points each).</p>
+          </div>
+          <span class="text-xs font-mono bg-blue-900 text-blue-200 px-2.5 py-1 rounded">14 Items</span>
+        </div>
+
+        <div class="p-6 space-y-6 divide-y divide-slate-100">
+          
+          <!-- C1 -->
+          <div class="pt-4 first:pt-0" data-q="c1">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              1. Import the Pandas library using the standard alias <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">pd</code>.
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c1" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c1')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c1')" id="btn-toggle-c1" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c1" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c1" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C2 -->
+          <div class="pt-4" data-q="c2">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              2. Load an Excel file located at <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">'/content/data.xlsx'</code> into a DataFrame named <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">df</code>.
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c2" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c2')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c2')" id="btn-toggle-c2" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c2" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c2" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C3 -->
+          <div class="pt-4" data-q="c3">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              3. Load a CSV file located at <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">'/content/data.csv'</code> into a DataFrame named <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">df</code>.
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c3" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c3')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c3')" id="btn-toggle-c3" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c3" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c3" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C4 -->
+          <div class="pt-4" data-q="c4">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              4. Display the first 5 rows of the DataFrame <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">df</code>.
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c4" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c4')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c4')" id="btn-toggle-c4" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c4" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c4" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C5 -->
+          <div class="pt-4" data-q="c5">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              5. Inspect dataset information (column names, row entries, non-null counts, data types, memory usage).
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c5" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c5')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c5')" id="btn-toggle-c5" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c5" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c5" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C6 -->
+          <div class="pt-4" data-q="c6">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              6. Display the descriptive statistical summary table (count, mean, std, min, quartiles, max).
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c6" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c6')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c6')" id="btn-toggle-c6" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c6" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c6" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C7 -->
+          <div class="pt-4" data-q="c7">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              7. Convert the column <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">'Customer_ID'</code> to a nullable integer type to support missing values.
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c7" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c7')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c7')" id="btn-toggle-c7" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c7" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c7" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C8 -->
+          <div class="pt-4" data-q="c8">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              8. Count the total number of duplicate rows in <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">df</code>.
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c8" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c8')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c8')" id="btn-toggle-c8" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c8" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c8" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C9 -->
+          <div class="pt-4" data-q="c9">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              9. Filter and store <strong>all duplicate rows</strong> (including their first/original occurrences) into a variable named <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">duplicate</code>.
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c9" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c9')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c9')" id="btn-toggle-c9" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c9" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c9" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C10 -->
+          <div class="pt-4" data-q="c10">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              10. Remove duplicate rows from <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">df</code> permanently in place.
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c10" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c10')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c10')" id="btn-toggle-c10" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c10" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c10" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C11 -->
+          <div class="pt-4" data-q="c11">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              11. Count and display the number of missing (null) values for every column in <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">df</code>.
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c11" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c11')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c11')" id="btn-toggle-c11" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c11" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c11" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C12 -->
+          <div class="pt-4" data-q="c12">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              12. Remove columns containing <strong>only</strong> missing values (all values null) permanently in place.
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c12" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c12')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c12')" id="btn-toggle-c12" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c12" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c12" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C13 -->
+          <div class="pt-4" data-q="c13">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              13. Impute missing values in the numerical column <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">'Amount'</code> with its <strong>mean</strong> (in place).
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c13" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c13')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c13')" id="btn-toggle-c13" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c13" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c13" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+          <!-- C14 -->
+          <div class="pt-4" data-q="c14">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              14. Impute missing values in categorical column <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">'Payment_Method'</code> with its <strong>mode</strong> using scalar index extraction.
+            </label>
+            <div class="flex gap-2 items-center">
+              <input type="text" id="ans-c14" class="flex-1 font-mono text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Type your code here...">
+              <button onclick="checkIndividual('c14')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition whitespace-nowrap">Check</button>
+              <button onclick="toggleAnswer('c14')" id="btn-toggle-c14" class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition whitespace-nowrap">
+                <i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>
+              </button>
+            </div>
+            <div id="feedback-c14" class="text-xs mt-1.5 hidden font-mono"></div>
+            <div id="answerbox-c14" class="hidden mt-2 p-2.5 bg-slate-100 text-slate-800 rounded-lg border border-slate-300 text-xs font-mono"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PART 2: ENUMERATION & ORDERING (35 POINTS) -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-indigo-900 text-white px-6 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+          <div>
+            <h3 class="font-bold text-base flex items-center">
+              <i class="fa-solid fa-list-check text-indigo-300 mr-2"></i> PART II: Enumeration & Procedures (35 Points)
+            </h3>
+            <p class="text-xs text-indigo-200">Fill in the exact terms, steps, shelves, and actions (1.4 points each blank, total 25 items).</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="checkAllEnum()" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded transition flex items-center gap-1">
+              <i class="fa-solid fa-check"></i> Check All Enum
+            </button>
+            <button onclick="toggleAllEnumAnswers()" id="btn-toggle-all-enum" class="px-2.5 py-1 bg-indigo-700 hover:bg-indigo-600 text-white text-xs font-semibold rounded border border-indigo-500 transition flex items-center gap-1">
+              <i class="fa-solid fa-eye"></i> Show All Answers
+            </button>
+          </div>
+        </div>
+
+        <div class="p-6 space-y-6">
+          
+          <!-- Section A: 6 Steps -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+            <h4 class="font-bold text-sm text-slate-800">A. Six (6) Steps of Tableau Workflow (In Order: 1-6)</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              
+              <!-- e-1 -->
+              <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
+                <label class="text-xs font-semibold text-slate-600 block">Step 1 (Load sources):</label>
+                <input type="text" id="ans-e-1" class="w-full text-xs font-bold uppercase border border-slate-300 rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Type step here...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-1')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-1')" id="btn-toggle-e-1" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-1" class="text-xs hidden font-medium"></div>
+                <div id="box-e-1" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-2 -->
+              <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
+                <label class="text-xs font-semibold text-slate-600 block">Step 2 (Check types & nulls):</label>
+                <input type="text" id="ans-e-2" class="w-full text-xs font-bold uppercase border border-slate-300 rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Type step here...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-2')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-2')" id="btn-toggle-e-2" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-2" class="text-xs hidden font-medium"></div>
+                <div id="box-e-2" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-3 -->
+              <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
+                <label class="text-xs font-semibold text-slate-600 block">Step 3 (Drag to Rows/Columns):</label>
+                <input type="text" id="ans-e-3" class="w-full text-xs font-bold uppercase border border-slate-300 rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Type step here...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-3')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-3')" id="btn-toggle-e-3" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-3" class="text-xs hidden font-medium"></div>
+                <div id="box-e-3" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-4 -->
+              <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
+                <label class="text-xs font-semibold text-slate-600 block">Step 4 (Color, labels, filters):</label>
+                <input type="text" id="ans-e-4" class="w-full text-xs font-bold uppercase border border-slate-300 rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Type step here...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-4')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-4')" id="btn-toggle-e-4" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-4" class="text-xs hidden font-medium"></div>
+                <div id="box-e-4" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-5 -->
+              <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
+                <label class="text-xs font-semibold text-slate-600 block">Step 5 (Combine sheets):</label>
+                <input type="text" id="ans-e-5" class="w-full text-xs font-bold uppercase border border-slate-300 rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Type step here...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-5')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-5')" id="btn-toggle-e-5" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-5" class="text-xs hidden font-medium"></div>
+                <div id="box-e-5" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-6 -->
+              <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
+                <label class="text-xs font-semibold text-slate-600 block">Step 6 (Publish or export):</label>
+                <input type="text" id="ans-e-6" class="w-full text-xs font-bold uppercase border border-slate-300 rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Type step here...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-6')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-6')" id="btn-toggle-e-6" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-6" class="text-xs hidden font-medium"></div>
+                <div id="box-e-6" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section B: Canvas Interface -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+            <h4 class="font-bold text-sm text-slate-800">B. Tableau Canvas Interface Shelves & Tabs</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              
+              <!-- e-7 -->
+              <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1.5">
+                <span class="text-slate-700 font-semibold block">7. Shelf used to organize data horizontally:</span>
+                <input type="text" id="ans-e-7" class="w-full font-bold uppercase border rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Shelf name...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-7')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-7')" id="btn-toggle-e-7" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-7" class="text-xs hidden font-medium"></div>
+                <div id="box-e-7" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-8 -->
+              <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1.5">
+                <span class="text-slate-700 font-semibold block">8. Shelf used to organize data vertically on Y-axis:</span>
+                <input type="text" id="ans-e-8" class="w-full font-bold uppercase border rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Shelf name...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-8')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-8')" id="btn-toggle-e-8" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-8" class="text-xs hidden font-medium"></div>
+                <div id="box-e-8" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-9 -->
+              <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1.5">
+                <span class="text-slate-700 font-semibold block">9. Shelf that displays only data meeting conditions:</span>
+                <input type="text" id="ans-e-9" class="w-full font-bold uppercase border rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Shelf name...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-9')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-9')" id="btn-toggle-e-9" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-9" class="text-xs hidden font-medium"></div>
+                <div id="box-e-9" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-10 -->
+              <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1.5">
+                <span class="text-slate-700 font-semibold block">10. Card controlling visual properties (Color, Size, Tooltip):</span>
+                <input type="text" id="ans-e-10" class="w-full font-bold uppercase border rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Card name...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-10')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-10')" id="btn-toggle-e-10" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-10" class="text-xs hidden font-medium"></div>
+                <div id="box-e-10" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-11 -->
+              <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1.5">
+                <span class="text-slate-700 font-semibold block">11. Interface tab combining multiple worksheets:</span>
+                <input type="text" id="ans-e-11" class="w-full font-bold uppercase border rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Feature name...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-11')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-11')" id="btn-toggle-e-11" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-11" class="text-xs hidden font-medium"></div>
+                <div id="box-e-11" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-12 -->
+              <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1.5">
+                <span class="text-slate-700 font-semibold block">12. Single chart workspace canvas tab:</span>
+                <input type="text" id="ans-e-12" class="w-full font-bold uppercase border rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Tab name...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-12')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-12')" id="btn-toggle-e-12" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-12" class="text-xs hidden font-medium"></div>
+                <div id="box-e-12" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-13 -->
+              <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1.5">
+                <span class="text-slate-700 font-semibold block">13. Sequence of dashboards/sheets conveying narrative:</span>
+                <input type="text" id="ans-e-13" class="w-full font-bold uppercase border rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Feature name...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-13')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-13')" id="btn-toggle-e-13" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-13" class="text-xs hidden font-medium"></div>
+                <div id="box-e-13" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-14 -->
+              <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1.5">
+                <span class="text-slate-700 font-semibold block">14. What binary classifications does a Set produce?:</span>
+                <input type="text" id="ans-e-14" class="w-full font-bold uppercase border rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="e.g. __ OR __">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-14')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-14')" id="btn-toggle-e-14" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-14" class="text-xs hidden font-medium"></div>
+                <div id="box-e-14" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section C: 4 Styling Techniques -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+            <h4 class="font-bold text-sm text-slate-800">C. Four (4) Techniques in Step 4: STYLE</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              
+              <!-- e-15 -->
+              <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
+                <label class="text-xs font-semibold text-slate-600 block">15. Technique 1 (Distinguish categories):</label>
+                <input type="text" id="ans-e-15" class="w-full text-xs font-bold uppercase border rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Type technique...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-15')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-15')" id="btn-toggle-e-15" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-15" class="text-xs hidden font-medium"></div>
+                <div id="box-e-15" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-16 -->
+              <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
+                <label class="text-xs font-semibold text-slate-600 block">16. Technique 2 (Display exact values):</label>
+                <input type="text" id="ans-e-16" class="w-full text-xs font-bold uppercase border rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Type technique...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-16')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-16')" id="btn-toggle-e-16" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-16" class="text-xs hidden font-medium"></div>
+                <div id="box-e-16" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-17 -->
+              <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
+                <label class="text-xs font-semibold text-slate-600 block">17. Technique 3 (Isolate conditions):</label>
+                <input type="text" id="ans-e-17" class="w-full text-xs font-bold uppercase border rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Type technique...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-17')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-17')" id="btn-toggle-e-17" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-17" class="text-xs hidden font-medium"></div>
+                <div id="box-e-17" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+              <!-- e-18 -->
+              <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-1.5">
+                <label class="text-xs font-semibold text-slate-600 block">18. Technique 4 (Hover popups):</label>
+                <input type="text" id="ans-e-18" class="w-full text-xs font-bold uppercase border rounded px-2.5 py-1.5 bg-slate-50 focus:bg-white" placeholder="Type technique...">
+                <div class="flex gap-1.5 pt-1">
+                  <button onclick="checkEnum('e-18')" class="flex-1 py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                  <button onclick="toggleEnumAnswer('e-18')" id="btn-toggle-e-18" class="flex-1 py-1 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                </div>
+                <div id="fb-e-18" class="text-xs hidden font-medium"></div>
+                <div id="box-e-18" class="hidden p-2 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section D: Procedural Steps -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+            <h4 class="font-bold text-sm text-slate-800">D. Procedures: Creating Groups and Sets</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              
+              <!-- Group Procedure Subcard -->
+              <div class="bg-white p-3.5 rounded-lg border border-slate-200 space-y-3">
+                <span class="font-bold text-blue-900 block border-b pb-1">Procedure to Create Group (Reviewer P.3):</span>
+                
+                <!-- e-19 -->
+                <div class="space-y-1">
+                  <label class="text-slate-700 block font-semibold">19. In Data pane, right-click which field?</label>
+                  <input type="text" id="ans-e-19" class="w-full font-bold uppercase border rounded px-2 py-1.5 bg-slate-50 focus:bg-white" placeholder="Field name...">
+                  <div class="flex gap-1.5 pt-0.5">
+                    <button onclick="checkEnum('e-19')" class="flex-1 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                    <button onclick="toggleEnumAnswer('e-19')" id="btn-toggle-e-19" class="flex-1 py-0.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                  </div>
+                  <div id="fb-e-19" class="text-xs hidden font-medium"></div>
+                  <div id="box-e-19" class="hidden p-1.5 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+                </div>
+
+                <!-- e-20 -->
+                <div class="space-y-1">
+                  <label class="text-slate-700 block font-semibold">20. In the contextual menu, click Create > ?</label>
+                  <input type="text" id="ans-e-20" class="w-full font-bold uppercase border rounded px-2 py-1.5 bg-slate-50 focus:bg-white" placeholder="Option name...">
+                  <div class="flex gap-1.5 pt-0.5">
+                    <button onclick="checkEnum('e-20')" class="flex-1 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                    <button onclick="toggleEnumAnswer('e-20')" id="btn-toggle-e-20" class="flex-1 py-0.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                  </div>
+                  <div id="fb-e-20" class="text-xs hidden font-medium"></div>
+                  <div id="box-e-20" class="hidden p-1.5 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+                </div>
+
+                <!-- e-21 -->
+                <div class="space-y-1">
+                  <label class="text-slate-700 block font-semibold">21. After grouping brand items, rename the new group field to:</label>
+                  <input type="text" id="ans-e-21" class="w-full font-bold uppercase border rounded px-2 py-1.5 bg-slate-50 focus:bg-white" placeholder="Group field name...">
+                  <div class="flex gap-1.5 pt-0.5">
+                    <button onclick="checkEnum('e-21')" class="flex-1 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                    <button onclick="toggleEnumAnswer('e-21')" id="btn-toggle-e-21" class="flex-1 py-0.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                  </div>
+                  <div id="fb-e-21" class="text-xs hidden font-medium"></div>
+                  <div id="box-e-21" class="hidden p-1.5 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+                </div>
+
+              </div>
+
+              <!-- Set Procedure Subcard -->
+              <div class="bg-white p-3.5 rounded-lg border border-slate-200 space-y-3">
+                <span class="font-bold text-emerald-900 block border-b pb-1">Top 5 Set Creation Procedure (Reviewer P.3):</span>
+                
+                <!-- e-22 -->
+                <div class="space-y-1">
+                  <label class="text-slate-700 block font-semibold">22. In Data pane, right-click which field?</label>
+                  <input type="text" id="ans-e-22" class="w-full font-bold uppercase border rounded px-2 py-1.5 bg-slate-50 focus:bg-white" placeholder="Field name...">
+                  <div class="flex gap-1.5 pt-0.5">
+                    <button onclick="checkEnum('e-22')" class="flex-1 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                    <button onclick="toggleEnumAnswer('e-22')" id="btn-toggle-e-22" class="flex-1 py-0.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                  </div>
+                  <div id="fb-e-22" class="text-xs hidden font-medium"></div>
+                  <div id="box-e-22" class="hidden p-1.5 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+                </div>
+
+                <!-- e-23 -->
+                <div class="space-y-1">
+                  <label class="text-slate-700 block font-semibold">23. In the contextual menu, click Create > ?</label>
+                  <input type="text" id="ans-e-23" class="w-full font-bold uppercase border rounded px-2 py-1.5 bg-slate-50 focus:bg-white" placeholder="Option name...">
+                  <div class="flex gap-1.5 pt-0.5">
+                    <button onclick="checkEnum('e-23')" class="flex-1 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                    <button onclick="toggleEnumAnswer('e-23')" id="btn-toggle-e-23" class="flex-1 py-0.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                  </div>
+                  <div id="fb-e-23" class="text-xs hidden font-medium"></div>
+                  <div id="box-e-23" class="hidden p-1.5 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+                </div>
+
+                <!-- e-24 -->
+                <div class="space-y-1">
+                  <label class="text-slate-700 block font-semibold">24. In the Set dialog window, switch to which tab?</label>
+                  <input type="text" id="ans-e-24" class="w-full font-bold uppercase border rounded px-2 py-1.5 bg-slate-50 focus:bg-white" placeholder="Tab name...">
+                  <div class="flex gap-1.5 pt-0.5">
+                    <button onclick="checkEnum('e-24')" class="flex-1 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                    <button onclick="toggleEnumAnswer('e-24')" id="btn-toggle-e-24" class="flex-1 py-0.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                  </div>
+                  <div id="fb-e-24" class="text-xs hidden font-medium"></div>
+                  <div id="box-e-24" class="hidden p-1.5 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+                </div>
+
+                <!-- e-25 -->
+                <div class="space-y-1">
+                  <label class="text-slate-700 block font-semibold">25. To distinguish In/Out visually, drag Set to which Marks card tile?</label>
+                  <input type="text" id="ans-e-25" class="w-full font-bold uppercase border rounded px-2 py-1.5 bg-slate-50 focus:bg-white" placeholder="Marks tile...">
+                  <div class="flex gap-1.5 pt-0.5">
+                    <button onclick="checkEnum('e-25')" class="flex-1 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded transition">Check</button>
+                    <button onclick="toggleEnumAnswer('e-25')" id="btn-toggle-e-25" class="flex-1 py-0.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded border border-indigo-200 transition">Show Answer</button>
+                  </div>
+                  <div id="fb-e-25" class="text-xs hidden font-medium"></div>
+                  <div id="box-e-25" class="hidden p-1.5 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded text-xs font-bold"></div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PART 3: ANALYSIS & INTERPRETATION (30 POINTS) -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-emerald-900 text-white px-6 py-4 flex justify-between items-center">
+          <div>
+            <h3 class="font-bold text-base flex items-center">
+              <i class="fa-solid fa-microscope text-emerald-300 mr-2"></i> PART III: Analysis & Identification (30 Points)
+            </h3>
+            <p class="text-xs text-emerald-200">Evaluate technical behavior, output tables, and design decisions (3 points each, 10 items).</p>
+          </div>
+          <span class="text-xs font-mono bg-emerald-950 text-emerald-200 px-2.5 py-1 rounded">10 Items</span>
+        </div>
+
+        <div class="p-6 space-y-6">
+          <!-- A1 -->
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
+            <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Analysis 1</span>
+            <p class="text-sm font-semibold text-slate-800 mt-1 mb-2">
+              1. What does the parameter <code class="text-emerald-700 font-mono">keep=False</code> do in <code class="text-emerald-700 font-mono">df.duplicated(keep=False)</code>?
+            </p>
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center space-x-2"><input type="radio" name="a-1" value="A"><span>A) Marks all occurrences of duplicate rows as True, including their first/original occurrence.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-1" value="B"><span>B) Immediately permanently drops all duplicates without creating a preview.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-1" value="C"><span>C) Keeps only the first occurrence and marks all later copies as False.</span></label>
+            </div>
+          </div>
+
+          <!-- A2 -->
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
+            <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Analysis 2</span>
+            <p class="text-sm font-semibold text-slate-800 mt-1 mb-2">
+              2. Why must we use <code class="text-emerald-700 font-mono">.mode()[0]</code> instead of <code class="text-emerald-700 font-mono">.mean()</code> for the column <code class="text-emerald-700 font-mono">Payment_Method</code>?
+            </p>
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center space-x-2"><input type="radio" name="a-2" value="A"><span>A) Mean only operates on numbers; mode finds the most frequent text value, and [0] extracts the scalar from the Series.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-2" value="B"><span>B) Mode is required by SQL whereas mean only works on Google Colab GPU instances.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-2" value="C"><span>C) Mean automatically converts missing rows to blanks rather than replacing them.</span></label>
+            </div>
+          </div>
+
+          <!-- A3 -->
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
+            <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Analysis 3</span>
+            <p class="text-sm font-semibold text-slate-800 mt-1 mb-2">
+              3. In the command <code class="text-emerald-700 font-mono">df.dropna(axis=1, how='all', inplace=True)</code>, what does <code class="text-emerald-700 font-mono">axis=1</code> specify?
+            </p>
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center space-x-2"><input type="radio" name="a-3" value="A"><span>A) It applies the drop operation across columns (axis=1) instead of rows (axis=0).</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-3" value="B"><span>B) It preserves the first column and deletes all other columns.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-3" value="C"><span>C) It sets the primary key index column to 1.</span></label>
+            </div>
+          </div>
+
+          <!-- A4 -->
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
+            <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Analysis 4</span>
+            <p class="text-sm font-semibold text-slate-800 mt-1 mb-2">
+              4. Why is <code class="text-emerald-700 font-mono">df['Customer_ID'].astype('Int64')</code> used instead of standard <code class="text-emerald-700 font-mono">int64</code>?
+            </p>
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center space-x-2"><input type="radio" name="a-4" value="A"><span>A) Standard int64 cannot hold missing values and converts to float64, while Int64 supports nullable integers.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-4" value="B"><span>B) It formats Customer_ID into currency notation with peso signs.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-4" value="C"><span>C) It forces Tableau to recognize Customer_ID as a measure instead of a dimension.</span></label>
+            </div>
+          </div>
+
+          <!-- A5 -->
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
+            <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Analysis 5</span>
+            <p class="text-sm font-semibold text-slate-800 mt-1 mb-2">
+              5. In the Superstore worksheet view, why do bars have heights representing Total Sales while numbers above show Average Sales?
+            </p>
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center space-x-2"><input type="radio" name="a-5" value="A"><span>A) SUM(Sales) is on the Rows shelf, and AVG(Sales) is placed on the Label shelf of the Marks card.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-5" value="B"><span>B) A calculated field was written that divides SUM(Sales) by 3 automatically.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-5" value="C"><span>C) It is a dual-axis chart synchronizing both axes.</span></label>
+            </div>
+          </div>
+
+          <!-- A6 -->
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
+            <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Analysis 6</span>
+            <p class="text-sm font-semibold text-slate-800 mt-1 mb-2">
+              6. What is the fundamental functional difference between a Tableau <strong>Group</strong> and a Tableau <strong>Set</strong>?
+            </p>
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center space-x-2"><input type="radio" name="a-6" value="A"><span>A) Groups combine members into new custom categories; Sets partition members into IN or OUT based on conditions.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-6" value="B"><span>B) Groups only work on measures; Sets only work on date dimensions.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-6" value="C"><span>C) Sets cannot be dragged to the Marks card while Groups can.</span></label>
+            </div>
+          </div>
+
+          <!-- A7 -->
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
+            <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Analysis 7</span>
+            <p class="text-sm font-semibold text-slate-800 mt-1 mb-2">
+              7. What happens if you run <code class="text-emerald-700 font-mono">df.drop_duplicates()</code> without passing <code class="text-emerald-700 font-mono">inplace=True</code>?
+            </p>
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center space-x-2"><input type="radio" name="a-7" value="A"><span>A) It returns a temporary filtered copy, leaving the original DataFrame df unmodified.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-7" value="B"><span>B) It throws a Python SyntaxError immediately.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-7" value="C"><span>C) It permanently deletes the raw CSV file from Google Drive.</span></label>
+            </div>
+          </div>
+
+          <!-- A8 -->
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
+            <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Analysis 8</span>
+            <p class="text-sm font-semibold text-slate-800 mt-1 mb-2">
+              8. How does a <strong>Dashboard Filter Action</strong> differ from a basic <strong>Worksheet Filter</strong>?
+            </p>
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center space-x-2"><input type="radio" name="a-8" value="A"><span>A) A worksheet filter affects only one sheet; a dashboard filter action lets selections in one chart dynamically update other charts.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-8" value="B"><span>B) Dashboard filter actions can only be used on numerical measures.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-8" value="C"><span>C) Worksheet filters can only filter dates.</span></label>
+            </div>
+          </div>
+
+          <!-- A9 -->
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
+            <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Analysis 9</span>
+            <p class="text-sm font-semibold text-slate-800 mt-1 mb-2">
+              9. What does the function <code class="text-emerald-700 font-mono">df.describe()</code> display when executed on a dataset?
+            </p>
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center space-x-2"><input type="radio" name="a-9" value="A"><span>A) Statistical metrics including count, mean, std, min, quartiles (25%, 50%, 75%), and max for numerical columns.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-9" value="B"><span>B) A list of all syntax errors in Google Colab.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-9" value="C"><span>C) The total file size in megabytes and disk path.</span></label>
+            </div>
+          </div>
+
+          <!-- A10 -->
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
+            <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Analysis 10</span>
+            <p class="text-sm font-semibold text-slate-800 mt-1 mb-2">
+              10. In Tableau Step 4 (Style), what is the specific role of <strong>Tooltips</strong>?
+            </p>
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center space-x-2"><input type="radio" name="a-10" value="A"><span>A) Provide additional contextual information upon hovering over a mark without cluttering the chart.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-10" value="B"><span>B) Change the chart type from bar chart to pie chart automatically.</span></label>
+              <label class="flex items-center space-x-2"><input type="radio" name="a-10" value="C"><span>C) Connect the workbook to external MySQL databases.</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-end gap-3 pt-2">
+        <button onclick="resetExam()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl text-sm transition">
+          Reset All Responses
+        </button>
+        <button onclick="gradeExam()" class="px-8 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm shadow-md transition">
+          Submit & Grade Full Exam
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- VIEW: PYTHON CLEANING PIPELINE                                -->
+    <!-- ============================================================== -->
+    <section id="view-python" class="view-panel hidden space-y-6">
+      <div class="border-l-4 border-amber-500 bg-amber-50 p-4 rounded-r-xl">
+        <h2 class="text-lg font-bold text-amber-900">Google Colab Data Cleaning Pipeline (Steps 1 to 12)</h2>
+        <p class="text-xs text-amber-800">Every snippet corresponds exactly to the BAT 401 reviewer.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 1 & 2 -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Steps 1 & 2</span>
+          <h3 class="font-bold text-slate-800">Import & File Loading</h3>
+          <p class="text-xs text-slate-600">Import pandas and read file paths in Google Colab:</p>
+          <pre class="bg-slate-900 text-slate-100 p-3 rounded-lg text-xs overflow-x-auto"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+
+<span class="text-slate-400"># Read Excel</span>
+df = pd.read_excel(<span class="text-emerald-300">'/content/data.xlsx'</span>)
+
+<span class="text-slate-400"># Read CSV</span>
+df = pd.read_csv(<span class="text-emerald-300">'/content/data.csv'</span>)</code></pre>
+        </div>
+
+        <!-- 3, 4, 5 -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Steps 3, 4, 5</span>
+          <h3 class="font-bold text-slate-800">Dataset Inspection</h3>
+          <p class="text-xs text-slate-600">View rows, structural metadata, and descriptive statistics:</p>
+          <pre class="bg-slate-900 text-slate-100 p-3 rounded-lg text-xs overflow-x-auto"><code>df.head()       <span class="text-slate-400"># First 5 rows</span>
+df.info()       <span class="text-slate-400"># dtypes, memory, null count</span>
+df.describe()   <span class="text-slate-400"># Stats table</span></code></pre>
+        </div>
+
+        <!-- 6 -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Step 6</span>
+          <h3 class="font-bold text-slate-800">Correcting Data Types</h3>
+          <p class="text-xs text-slate-600">Nullable integer casting so ID columns allow missing values:</p>
+          <pre class="bg-slate-900 text-slate-100 p-3 rounded-lg text-xs overflow-x-auto"><code>df[<span class="text-emerald-300">'Customer_ID'</span>] = df[<span class="text-emerald-300">'Customer_ID'</span>].astype(<span class="text-emerald-300">'Int64'</span>)</code></pre>
+        </div>
+
+        <!-- 7, 8, 9 -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Steps 7, 8, 9</span>
+          <h3 class="font-bold text-slate-800">Duplicates Handling</h3>
+          <p class="text-xs text-slate-600">Count, view with <code class="text-amber-700 bg-amber-50 px-1 py-0.5 rounded">keep=False</code>, and drop duplicates:</p>
+          <pre class="bg-slate-900 text-slate-100 p-3 rounded-lg text-xs overflow-x-auto"><code><span class="text-slate-400"># Count</span>
+print(<span class="text-emerald-300">"The total number of duplicates:"</span>, df.duplicated().sum())
+
+<span class="text-slate-400"># Display all duplicates including first</span>
+duplicate = df[df.duplicated(keep=<span class="text-amber-400">False</span>)]
+
+<span class="text-slate-400"># Drop in place</span>
+df.drop_duplicates(inplace=<span class="text-amber-400">True</span>)</code></pre>
+        </div>
+
+        <!-- 10 & 11 -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Steps 10 & 11</span>
+          <h3 class="font-bold text-slate-800">Missing Values & Dropping Empty Columns</h3>
+          <p class="text-xs text-slate-600">Count nulls and drop columns containing only nulls:</p>
+          <pre class="bg-slate-900 text-slate-100 p-3 rounded-lg text-xs overflow-x-auto"><code><span class="text-slate-400"># Count nulls per column</span>
+df.isnull().sum()
+
+<span class="text-slate-400"># Drop columns with 100% missing values</span>
+df.dropna(axis=<span class="text-blue-400">1</span>, how=<span class="text-emerald-300">'all'</span>, inplace=<span class="text-amber-400">True</span>)</code></pre>
+        </div>
+
+        <!-- 12 -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+          <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Step 12</span>
+          <h3 class="font-bold text-slate-800">Handling Missing Values (Imputation)</h3>
+          <p class="text-xs text-slate-600">Use mean for numerical data and mode for categorical text:</p>
+          <pre class="bg-slate-900 text-slate-100 p-3 rounded-lg text-xs overflow-x-auto"><code><span class="text-slate-400"># Numerical Imputation</span>
+df[<span class="text-emerald-300">'Amount'</span>].fillna(df[<span class="text-emerald-300">'Amount'</span>].mean(), inplace=<span class="text-amber-400">True</span>)
+
+<span class="text-slate-400"># Categorical Imputation</span>
+df[<span class="text-emerald-300">'Payment_Method'</span>].fillna(df[<span class="text-emerald-300">'Payment_Method'</span>].mode()[<span class="text-blue-400">0</span>], inplace=<span class="text-amber-400">True</span>)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- VIEW: TABLEAU WORKFLOW & CANVAS                               -->
+    <!-- ============================================================== -->
+    <section id="view-tableau" class="view-panel hidden space-y-6">
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <h2 class="text-lg font-bold text-slate-900 mb-1">The 6 Core Tableau Workflow Steps</h2>
+        <p class="text-xs text-slate-500 mb-6">Definitions and detailed actions from Page 1 of the reviewer.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="border border-indigo-100 bg-indigo-50/50 rounded-xl p-4">
+            <span class="text-2xl font-black text-indigo-500">01</span>
+            <h3 class="font-bold text-indigo-950 mt-1">Connect</h3>
+            <p class="text-xs text-slate-600 mt-1">Choose Excel, CSV (Text File), database, or sample data and load records into Tableau.</p>
+          </div>
+          <div class="border border-blue-100 bg-blue-50/50 rounded-xl p-4">
+            <span class="text-2xl font-black text-blue-500">02</span>
+            <h3 class="font-bold text-blue-950 mt-1">Inspect</h3>
+            <p class="text-xs text-slate-600 mt-1">Check fields, preview data types, fix incorrect types, examine nulls/duplicates, and review joins/relationships.</p>
+          </div>
+          <div class="border border-cyan-100 bg-cyan-50/50 rounded-xl p-4">
+            <span class="text-2xl font-black text-cyan-500">03</span>
+            <h3 class="font-bold text-cyan-950 mt-1">Build</h3>
+            <p class="text-xs text-slate-600 mt-1">Drag dimensions and measures into Columns and Rows to create charts and graphs.</p>
+          </div>
+          <div class="border border-teal-100 bg-teal-50/50 rounded-xl p-4">
+            <span class="text-2xl font-black text-teal-500">04</span>
+            <h3 class="font-bold text-teal-950 mt-1">Style</h3>
+            <p class="text-xs text-slate-600 mt-1">Improve visualization readability using Colors, Labels, Filters, and Tooltips.</p>
+          </div>
+          <div class="border border-purple-100 bg-purple-50/50 rounded-xl p-4">
+            <span class="text-2xl font-black text-purple-500">05</span>
+            <h3 class="font-bold text-purple-950 mt-1">Dashboard</h3>
+            <p class="text-xs text-slate-600 mt-1">Combine multiple related worksheets into one interactive view; configure filter actions and layout containers.</p>
+          </div>
+          <div class="border border-rose-100 bg-rose-50/50 rounded-xl p-4">
+            <span class="text-2xl font-black text-rose-500">06</span>
+            <h3 class="font-bold text-rose-950 mt-1">Share</h3>
+            <p class="text-xs text-slate-600 mt-1">Present, export as PDF, or publish the workbook to Tableau Public.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Canvas Breakdown -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
+        <h2 class="text-lg font-bold text-slate-900">Tableau Public Canvas Interface Breakdown</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-3 bg-slate-50 border rounded-lg">
+            <span class="font-bold text-blue-700">Columns Shelf:</span>
+            <p class="text-slate-600 mt-1">Organizes data horizontally (X-axis). Category placed here creates columns for Technology, Furniture, and Office Supplies.</p>
+          </div>
+          <div class="p-3 bg-slate-50 border rounded-lg">
+            <span class="font-bold text-blue-700">Rows Shelf:</span>
+            <p class="text-slate-600 mt-1">Organizes data vertically (Y-axis). SUM(Sales) placed here sets bar heights representing total revenue.</p>
+          </div>
+          <div class="p-3 bg-slate-50 border rounded-lg">
+            <span class="font-bold text-indigo-700">Filters Shelf:</span>
+            <p class="text-slate-600 mt-1">Filters data to show only specific conditions without altering raw data (e.g. Region = CALABARZON).</p>
+          </div>
+          <div class="p-3 bg-slate-50 border rounded-lg">
+            <span class="font-bold text-indigo-700">Marks Card:</span>
+            <p class="text-slate-600 mt-1">Controls visual properties: Color (categories), Size, Label (exact text like ₱71,500), Detail, and Tooltip.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- VIEW: GROUPS VS SETS                                          -->
+    <!-- ============================================================== -->
+    <section id="view-setsgroups" class="view-panel hidden space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Groups -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-3">
+          <div class="flex items-center space-x-2">
+            <span class="bg-blue-600 text-white p-2 rounded-lg text-sm"><i class="fa-solid fa-layer-group"></i></span>
+            <h2 class="text-base font-bold text-slate-900">Tableau Groups</h2>
+          </div>
+          <p class="text-xs text-slate-600">Combines multiple data members into a single category.</p>
+          <div class="bg-slate-50 p-3 rounded-lg border text-xs space-y-1.5 text-slate-700">
+            <span class="font-bold text-slate-900 block">Procedure to Create a Group (Reviewer P.3):</span>
+            <ol class="list-decimal list-inside space-y-1">
+              <li>Right-click <strong>Product Name</strong> in Data pane.</li>
+              <li>Select <strong>Create &gt; Group</strong>.</li>
+              <li>Select all products belonging to the same brand (e.g., Xerox).</li>
+              <li>Click <strong>Group</strong> and rename it <strong>XEROX</strong>.</li>
+              <li>Repeat for other brands.</li>
+              <li>Rename the new group field <strong>BRANDS</strong>.</li>
+              <li>Drag <strong>BRANDS</strong> and <strong>Product Name</strong> into the <strong>Rows</strong> shelf.</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Sets -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-3">
+          <div class="flex items-center space-x-2">
+            <span class="bg-emerald-600 text-white p-2 rounded-lg text-sm"><i class="fa-solid fa-filter"></i></span>
+            <h2 class="text-base font-bold text-slate-900">Tableau Sets (Top 5 &amp; In/Out)</h2>
+          </div>
+          <p class="text-xs text-slate-600">Defines a subset of data based on conditions or Top N parameters, classifying into <strong>IN</strong> or <strong>OUT</strong>.</p>
+          <div class="bg-slate-50 p-3 rounded-lg border text-xs space-y-1.5 text-slate-700">
+            <span class="font-bold text-slate-900 block">Procedure to Create Top 5 Set (Reviewer P.3):</span>
+            <ol class="list-decimal list-inside space-y-1">
+              <li>Right-click <strong>Sub-Category</strong> in Data pane.</li>
+              <li>Select <strong>Create &gt; Set</strong>.</li>
+              <li>Open the <strong>Top</strong> tab.</li>
+              <li>Select <strong>By Field</strong>, then choose <strong>Top 5</strong> by <strong>SUM(Sales)</strong>.</li>
+              <li>Click <strong>OK</strong> to create the Set.</li>
+              <li>Drag Set to <strong>Color</strong> on Marks card to distinguish In vs. Out.</li>
+              <li>Drag Set to <strong>Label</strong> to display In and Out above bars.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Logic Engine -->
+  <script>
+    function switchView(viewName) {
+      document.querySelectorAll('.view-panel').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(el => {
+        el.classList.remove('tab-active');
+        el.classList.add('text-slate-600');
+      });
+
+      const activePanel = document.getElementById('view-' + viewName);
+      const activeTab = document.getElementById('tab-' + viewName);
+      if (activePanel) activePanel.classList.remove('hidden');
+      if (activeTab) {
+        activeTab.classList.add('tab-active');
+        activeTab.classList.remove('text-slate-600');
+      }
+    }
+
+    switchView('exam');
+
+    // Code rules
+    const codeRules = {
+      c1: { pattern: /^import\s+pandas\s+as\s+pd$/, clean: "import pandas as pd" },
+      c2: { pattern: /^df\s*=\s*pd\.read_excel\s*\(\s*['"]\/content\/data\.xlsx['"]\s*\)$/, clean: "df = pd.read_excel('/content/data.xlsx')" },
+      c3: { pattern: /^df\s*=\s*pd\.read_csv\s*\(\s*['"]\/content\/data\.csv['"]\s*\)$/, clean: "df = pd.read_csv('/content/data.csv')" },
+      c4: { pattern: /^df\.head\s*\(\s*\)$/, clean: "df.head()" },
+      c5: { pattern: /^df\.info\s*\(\s*\)$/, clean: "df.info()" },
+      c6: { pattern: /^df\.describe\s*\(\s*\)$/, clean: "df.describe()" },
+      c7: { pattern: /^df\[['"]Customer_ID['"]\]\s*=\s*df\[['"]Customer_ID['"]\]\.astype\(['"]Int64['"]\)$/, clean: "df['Customer_ID'] = df['Customer_ID'].astype('Int64')" },
+      c8: { pattern: /^(print\s*\(\s*["']The total number of duplicates:?["']\s*,\s*)?df\.duplicated\s*\(\s*\)\.sum\s*\(\s*\)\s*\)?$/, clean: "df.duplicated().sum()" },
+      c9: { pattern: /^duplicate\s*=\s*df\[df\.duplicated\s*\(\s*keep\s*=\s*False\s*\)\]$/, clean: "duplicate = df[df.duplicated(keep=False)]" },
+      c10: { pattern: /^df\.drop_duplicates\s*\(\s*inplace\s*=\s*True\s*\)$/, clean: "df.drop_duplicates(inplace=True)" },
+      c11: { pattern: /^df\.isnull\s*\(\s*\)\.sum\s*\(\s*\)$/, clean: "df.isnull().sum()" },
+      c12: { pattern: /^df\.dropna\s*\(\s*axis\s*=\s*1\s*,\s*how\s*=\s*['"]all['"]\s*,\s*inplace\s*=\s*True\s*\)$/, clean: "df.dropna(axis=1, how='all', inplace=True)" },
+      c13: { 
+        test: v => v.includes("df['amount'].fillna(df['amount'].mean(),inplace=true)") || v.includes("df['amount']=df['amount'].fillna(df['amount'].mean())"),
+        clean: "df['Amount'].fillna(df['Amount'].mean(), inplace=True)"
+      },
+      c14: {
+        test: v => v.includes("df['payment_method'].fillna(df['payment_method'].mode()[0],inplace=true)") || v.includes("df['payment_method']=df['payment_method'].fillna(df['payment_method'].mode()[0])"),
+        clean: "df['Payment_Method'].fillna(df['Payment_Method'].mode()[0], inplace=True)"
+      }
+    };
+
+    function toggleAnswer(id) {
+      const box = document.getElementById('answerbox-' + id);
+      const btn = document.getElementById('btn-toggle-' + id);
+      const rule = codeRules[id];
+      if (!box || !btn || !rule) return;
+
+      if (box.classList.contains('hidden')) {
+        box.innerHTML = `<span class="text-slate-500 font-sans font-semibold">Answer: </span><span class="text-blue-700 font-bold font-mono">${rule.clean}</span>`;
+        box.classList.remove('hidden');
+        btn.innerHTML = `<i class="fa-solid fa-eye-slash mr-1"></i><span>Hide Answer</span>`;
+        btn.classList.add('bg-amber-100', 'text-amber-800', 'border-amber-300');
+        btn.classList.remove('bg-blue-50', 'text-blue-700', 'border-blue-200');
+      } else {
+        box.classList.add('hidden');
+        btn.innerHTML = `<i class="fa-solid fa-eye mr-1"></i><span>Show Answer</span>`;
+        btn.classList.remove('bg-amber-100', 'text-amber-800', 'border-amber-300');
+        btn.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-200');
+      }
+    }
+
+    function checkIndividual(id) {
+      const input = document.getElementById('ans-' + id);
+      const fb = document.getElementById('feedback-' + id);
+      if (!input || !fb) return;
+
+      const raw = input.value.trim();
+      const norm = raw.replace(/\s+/g, '').toLowerCase();
+      const rule = codeRules[id];
+      let correct = false;
+
+      if (rule.pattern) {
+        correct = rule.pattern.test(raw);
+      } else if (rule.test) {
+        correct = rule.test(norm);
+      }
+
+      fb.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+      if (correct) {
+        fb.classList.add('text-emerald-600');
+        fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct (+2.5 pts)`;
+        input.classList.remove('border-rose-400');
+        input.classList.add('border-emerald-500', 'bg-emerald-50/30');
+      } else {
+        fb.classList.add('text-rose-600');
+        fb.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Incorrect. Try again or click 'Show Answer'.`;
+        input.classList.add('border-rose-400');
+      }
+    }
+
+    // Enumeration dictionary with exact display names
+    const enumAnswers = {
+      'e-1': { accepted: ['CONNECT'], display: 'CONNECT' },
+      'e-2': { accepted: ['INSPECT'], display: 'INSPECT' },
+      'e-3': { accepted: ['BUILD'], display: 'BUILD' },
+      'e-4': { accepted: ['STYLE'], display: 'STYLE' },
+      'e-5': { accepted: ['DASHBOARD'], display: 'DASHBOARD' },
+      'e-6': { accepted: ['SHARE'], display: 'SHARE' },
+      'e-7': { accepted: ['COLUMNS', 'COLUMN', 'COLUMNS SHELF'], display: 'COLUMNS' },
+      'e-8': { accepted: ['ROWS', 'ROW', 'ROWS SHELF'], display: 'ROWS' },
+      'e-9': { accepted: ['FILTERS', 'FILTER', 'FILTERS SHELF'], display: 'FILTERS' },
+      'e-10': { accepted: ['MARKS', 'MARKS CARD', 'MARK'], display: 'MARKS' },
+      'e-11': { accepted: ['DASHBOARD', 'DASHBOARDS'], display: 'DASHBOARD' },
+      'e-12': { accepted: ['SHEET', 'WORKSHEET', 'SHEETS'], display: 'SHEET' },
+      'e-13': { accepted: ['STORY', 'STORIES'], display: 'STORY' },
+      'e-14': { accepted: ['IN OR OUT', 'IN/OUT', 'IN AND OUT', 'IN, OUT', 'IN OUT'], display: 'IN OR OUT' },
+      'e-15': { accepted: ['COLOR', 'COLORS', 'COLOUR', 'COLOURS'], display: 'COLOR' },
+      'e-16': { accepted: ['LABEL', 'LABELS', 'MARK LABELS'], display: 'LABEL' },
+      'e-17': { accepted: ['FILTER', 'FILTERS'], display: 'FILTER' },
+      'e-18': { accepted: ['TOOLTIP', 'TOOLTIPS'], display: 'TOOLTIP' },
+      'e-19': { accepted: ['PRODUCT NAME', 'PRODUCT_NAME', 'PRODUCTNAME'], display: 'PRODUCT NAME' },
+      'e-20': { accepted: ['GROUP'], display: 'GROUP' },
+      'e-21': { accepted: ['BRANDS', 'BRAND'], display: 'BRANDS' },
+      'e-22': { accepted: ['SUB-CATEGORY', 'SUB CATEGORY', 'SUBCATEGORY'], display: 'SUB-CATEGORY' },
+      'e-23': { accepted: ['SET'], display: 'SET' },
+      'e-24': { accepted: ['TOP', 'TOP TAB'], display: 'TOP' },
+      'e-25': { accepted: ['COLOR', 'COLOUR'], display: 'COLOR' }
+    };
+
+    function checkEnum(id) {
+      const input = document.getElementById('ans-' + id);
+      const fb = document.getElementById('fb-' + id);
+      const rule = enumAnswers[id];
+      if (!input || !fb || !rule) return;
+
+      const val = input.value.trim().toUpperCase();
+      fb.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+      if (rule.accepted.includes(val)) {
+        fb.classList.add('text-emerald-600');
+        fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct!`;
+        input.classList.remove('border-rose-400');
+        input.classList.add('border-emerald-500', 'bg-emerald-50');
+      } else {
+        fb.classList.add('text-rose-600');
+        fb.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Incorrect.`;
+        input.classList.add('border-rose-400');
+      }
+    }
+
+    function toggleEnumAnswer(id) {
+      const box = document.getElementById('box-' + id);
+      const btn = document.getElementById('btn-toggle-' + id);
+      const rule = enumAnswers[id];
+      if (!box || !btn || !rule) return;
+
+      if (box.classList.contains('hidden')) {
+        box.innerHTML = `Answer: <span class="font-mono text-indigo-700">${rule.display}</span>`;
+        box.classList.remove('hidden');
+        btn.innerHTML = 'Hide Answer';
+        btn.classList.add('bg-amber-100', 'text-amber-800', 'border-amber-300');
+      } else {
+        box.classList.add('hidden');
+        btn.innerHTML = 'Show Answer';
+        btn.classList.remove('bg-amber-100', 'text-amber-800', 'border-amber-300');
+      }
+    }
+
+    function checkAllEnum() {
+      let count = 0;
+      for (let i = 1; i <= 25; i++) {
+        const id = 'e-' + i;
+        const input = document.getElementById('ans-' + id);
+        const fb = document.getElementById('fb-' + id);
+        const rule = enumAnswers[id];
+        if (!input || !rule) continue;
+
+        const val = input.value.trim().toUpperCase();
+        fb.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+        if (rule.accepted.includes(val)) {
+          count++;
+          fb.classList.add('text-emerald-600');
+          fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct!`;
+          input.classList.remove('border-rose-400');
+          input.classList.add('border-emerald-500', 'bg-emerald-50');
+        } else {
+          fb.classList.add('text-rose-600');
+          fb.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Incorrect.`;
+          input.classList.add('border-rose-400');
+        }
+      }
+      alert(`Enumeration Check Complete!\nScore: ${count} / 25 (${Math.round((count/25)*100)}%)`);
+    }
+
+    let allEnumVisible = false;
+    function toggleAllEnumAnswers() {
+      allEnumVisible = !allEnumVisible;
+      const btnAll = document.getElementById('btn-toggle-all-enum');
+      btnAll.innerHTML = allEnumVisible 
+        ? `<i class="fa-solid fa-eye-slash"></i> Hide All Answers` 
+        : `<i class="fa-solid fa-eye"></i> Show All Answers`;
+
+      for (let i = 1; i <= 25; i++) {
+        const id = 'e-' + i;
+        const box = document.getElementById('box-' + id);
+        const btn = document.getElementById('btn-toggle-' + id);
+        const rule = enumAnswers[id];
+        if (!box || !btn || !rule) continue;
+
+        if (allEnumVisible) {
+          box.innerHTML = `Answer: <span class="font-mono text-indigo-700">${rule.display}</span>`;
+          box.classList.remove('hidden');
+          btn.innerHTML = 'Hide Answer';
+          btn.classList.add('bg-amber-100', 'text-amber-800', 'border-amber-300');
+        } else {
+          box.classList.add('hidden');
+          btn.innerHTML = 'Show Answer';
+          btn.classList.remove('bg-amber-100', 'text-amber-800', 'border-amber-300');
+        }
+      }
+    }
+
+    const analysisKey = {
+      'a-1': 'A',
+      'a-2': 'A',
+      'a-3': 'A',
+      'a-4': 'A',
+      'a-5': 'A',
+      'a-6': 'A',
+      'a-7': 'A',
+      'a-8': 'A',
+      'a-9': 'A',
+      'a-10': 'A'
+    };
+
+    function gradeExam() {
+      let score = 0;
+
+      // 1. Grade Code (35 pts)
+      for (const [id, rule] of Object.entries(codeRules)) {
+        const input = document.getElementById('ans-' + id);
+        const fb = document.getElementById('feedback-' + id);
+        if (!input) continue;
+
+        const raw = input.value.trim();
+        const norm = raw.replace(/\s+/g, '').toLowerCase();
+        let correct = false;
+
+        if (rule.pattern) {
+          correct = rule.pattern.test(raw);
+        } else if (rule.test) {
+          correct = rule.test(norm);
+        }
+
+        fb.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+        if (correct) {
+          score += 2.5;
+          fb.classList.add('text-emerald-600');
+          fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct (+2.5 pts)`;
+          input.classList.remove('border-rose-400');
+          input.classList.add('border-emerald-500', 'bg-emerald-50/30');
+        } else {
+          fb.classList.add('text-rose-600');
+          fb.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Answer: <code>${rule.clean}</code>`;
+          input.classList.add('border-rose-400');
+        }
+      }
+
+      // 2. Grade Enumeration (35 pts)
+      for (let i = 1; i <= 25; i++) {
+        const key = 'e-' + i;
+        const el = document.getElementById('ans-' + key);
+        const fb = document.getElementById('fb-' + key);
+        if (!el) continue;
+
+        const val = el.value.trim().toUpperCase();
+        const rule = enumAnswers[key];
+        if (rule && rule.accepted.includes(val)) {
+          score += 1.4;
+          el.classList.remove('border-rose-400');
+          el.classList.add('border-emerald-500', 'bg-emerald-50');
+          if (fb) {
+            fb.classList.remove('hidden', 'text-rose-600');
+            fb.classList.add('text-emerald-600');
+            fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct!`;
+          }
+        } else {
+          el.classList.add('border-rose-400');
+          if (fb) {
+            fb.classList.remove('hidden', 'text-emerald-600');
+            fb.classList.add('text-rose-600');
+            fb.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Incorrect.`;
+          }
+        }
+      }
+
+      // 3. Grade Analysis (30 pts)
+      for (const [name, expected] of Object.entries(analysisKey)) {
+        const checked = document.querySelector(`input[name="${name}"]:checked`);
+        if (checked && checked.value === expected) {
+          score += 3;
+        }
+      }
+
+      const totalRounded = Math.round(score);
+      document.getElementById('score-display').innerText = `${totalRounded} / 100`;
+
+      alert(`Exhaustive Exam Score: ${totalRounded}/100\nCheck marked sections to review any mistakes.`);
+    }
+
+    function resetExam() {
+      if (!confirm("Reset all answers?")) return;
+      document.querySelectorAll('input[type="text"]').forEach(el => {
+        el.value = '';
+        el.classList.remove('border-emerald-500', 'bg-emerald-50', 'bg-emerald-50/30', 'border-rose-400');
+      });
+      document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+      document.querySelectorAll('[id^="feedback-"], [id^="fb-"]').forEach(el => {
+        el.classList.add('hidden');
+        el.innerHTML = '';
+      });
+      document.querySelectorAll('[id^="answerbox-"], [id^="box-"]').forEach(el => {
+        el.classList.add('hidden');
+        el.innerHTML = '';
+      });
+      document.querySelectorAll('[id^="btn-toggle-"]').forEach(btn => {
+        if (btn.id.includes('-all')) {
+          btn.innerHTML = `<i class="fa-solid fa-eye"></i> Show All Answers`;
+        } else {
+          btn.innerHTML = `Show Answer`;
+          btn.classList.remove('bg-amber-100', 'text-amber-800', 'border-amber-300');
+          btn.classList.add('bg-indigo-50', 'text-indigo-700', 'border-indigo-200');
+        }
+      });
+      allEnumVisible = false;
+      document.getElementById('score-display').innerText = '0 / 100';
+    }
+  </script>
+</body>
+</html>
